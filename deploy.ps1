@@ -25,7 +25,7 @@ foreach ($dir in $order) {
         $updatedContent = $content -replace 'subscription_id\s*=\s*".*"', "subscription_id = `"$subscriptionId`""
         $updatedContent = $updatedContent -replace 'location\s*=\s*".*"', "location = `"$location`""
         $updatedContent = $updatedContent -replace 'resource_group_name\s*=\s*".*"', "resource_group_name = `"$resourceGroupName`""
-        $updatedContent = $updatedContent -replace 'app_service_name\s*=\s*".*"', "app_service_name = `"$app_service_name`""
+        $updatedContent = $updatedContent -replace 'app_service_name\s*=\s*".*"', "app_service_name = `"$appServiceName`""
         
         # Write the updated content back to the terraform.tfvars file
         Set-Content -Path $tfvarsFile.FullName -Value $updatedContent
