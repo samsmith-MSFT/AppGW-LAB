@@ -38,12 +38,19 @@ resource "azurerm_virtual_network" "spoke_vnets" {
   }
 }
 
-resource "azurerm_subnet" "spoke_subnets" {
-  for_each             = toset(var.vnet_name_spokes)
-  name                 = "${each.key}-subnet"
+resource "azurerm_subnet" "appgw_subnet" {
+  name                 = "appgw-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.spoke_vnets[each.key].name
-  address_prefixes     = var.subnet_space_spokes[each.key]
+  virtual_network_name = azurerm_virtual_network.spoke_vnets["vnet-appgwlab-appgw"].name
+  address_prefixes     = var.subnet_space_spokes["vnet-appgwlab-appgw"]
+  depends_on           = [azurerm_virtual_network.spoke_vnets]
+}
+
+resource "azurerm_subnet" "appservice_subnet" {
+  name                 = "appservice-subnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.spoke_vnets["vnet-appgwlab-appservice"].name
+  address_prefixes     = var.subnet_space_spokes["vnet-appgwlab-appservice"]
   depends_on           = [azurerm_virtual_network.spoke_vnets]
 }
 
@@ -118,8 +125,8 @@ resource "azurerm_virtual_network_peering" "spokes_to_hub" {
   allow_forwarded_traffic   = true
 }
 
-resource "azurerm_route_table" "rt" {
-  name                = "avnm-route-table"
+resource "azurerm_route_table" "appservice_rt" {
+  name                = "appgwlab-route-table-appservice"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
   bgp_route_propagation_enabled = false
@@ -132,7 +139,7 @@ resource "azurerm_route_table" "rt" {
 }
 
 resource "azurerm_route_table" "appgw_rt" {
-  name                = "avnm-route-table-appgw"
+  name                = "appgwlab-route-table-appgw"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
   bgp_route_propagation_enabled = false
@@ -142,18 +149,19 @@ resource "azurerm_route_table" "appgw_rt" {
     next_hop_type  = "VirtualAppliance"
     next_hop_in_ip_address = azurerm_firewall.firewall.ip_configuration[0].private_ip_address
   }
+  route {
+    name           = "default-route"
+    address_prefix = "0.0.0.0/0"
+    next_hop_type  = "Internet"
+  }
 }
 
-resource "azurerm_subnet_route_table_association" "rt_association" {
-  for_each = { for vnet in var.vnet_name_spokes : vnet => vnet if vnet == "vnet-avnm-appservice" }
-  subnet_id = azurerm_subnet.vnet-avnm-appservice.id
-  route_table_id = azurerm_route_table.rt.id
-  depends_on = [azurerm_route_table.rt]
-}
-
-resource "azurerm_subnet_route_table_association" "rt_association_appgw" {
-  for_each = { for vnet in var.vnet_name_spokes : vnet => vnet if vnet == "vnet-avnm-appgw" }
-  subnet_id = azurerm_subnet.vnet-avnm-appgw.id
+resource "azurerm_subnet_route_table_association" "rt_association-appgw" {
+  subnet_id = azurerm_subnet.appgw_subnet.id
   route_table_id = azurerm_route_table.appgw_rt.id
-  depends_on = [azurerm_route_table.appgw_rt]
+}
+
+resource "azurerm_subnet_route_table_association" "rt_association_appservice" {
+  subnet_id = azurerm_subnet.appservice_subnet.id
+  route_table_id = azurerm_route_table.appservice_rt.id
 }

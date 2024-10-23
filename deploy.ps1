@@ -10,7 +10,7 @@ $resourceGroupName = $answers.resourceGroupName
 $tfvarsFiles = Get-ChildItem -Recurse -Filter "terraform.tfvars" | Sort-Object DirectoryName
 
 # Define the order of directories
-$order = @("1-hub-spoke-lz", "2-compute", "3-avnm")
+$order = @("1-Hub-Spoke", "2-AppService", "3-appGW")
 
 foreach ($dir in $order) {
     $tfvarsFile = $tfvarsFiles | Where-Object { $_.DirectoryName -like "*$dir*" }
@@ -25,6 +25,7 @@ foreach ($dir in $order) {
         $updatedContent = $content -replace 'subscription_id\s*=\s*".*"', "subscription_id = `"$subscriptionId`""
         $updatedContent = $updatedContent -replace 'location\s*=\s*".*"', "location = `"$location`""
         $updatedContent = $updatedContent -replace 'resource_group_name\s*=\s*".*"', "resource_group_name = `"$resourceGroupName`""
+        $updatedContent = $updatedContent -replace 'app_service_name\s*=\s*".*"', "app_service_name = `"$app_service_name`""
         
         # Write the updated content back to the terraform.tfvars file
         Set-Content -Path $tfvarsFile.FullName -Value $updatedContent

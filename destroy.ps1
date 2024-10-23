@@ -1,7 +1,7 @@
 # Change to the modules directory
 Set-Location \ | Set-Location -Path "/workspaces/AVNM-LAB/Modules"
 
-$order = @("3-avnm", "2-compute", "1-hub-spoke-lz")
+$order = @("3-AppGW", "2-AppService", "1-Hub-Spoke")
 
 # Get the root directory
 $rootDir = Get-Location
@@ -29,7 +29,7 @@ foreach ($dir in $order) {
 # Change to the modules directory
 Set-Location -Path "Modules"
 
-$order = @("3-avnm", "2-compute", "1-hub-spoke-lz")
+$order = @("3-AppGW", "2-AppService", "1-Hub-Spoke")
 
 # Get the root directory
 $rootDir = Get-Location

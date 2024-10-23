@@ -1,0 +1,6 @@
+subscription_id = "<subID>"
+resource_group_name = "<rgName>"
+location = "<location>"
+app_service_name = "<appservicename>"
+vnet_name = "vnet-appgwlab-appgw"
+subnet_name = "appgw-subnet"

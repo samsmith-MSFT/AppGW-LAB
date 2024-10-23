@@ -1,5 +1,6 @@
 {
     "subscriptionId": "<your-subscription-id>",
     "location": "<location>",
-    "resourceGroupName": "<resource-group-name>"
+    "resourceGroupName": "<resource-group-name>",
+    "appServiceName": "<app-service-name>"
   }
