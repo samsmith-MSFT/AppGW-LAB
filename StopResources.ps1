@@ -8,3 +8,7 @@ Stop-AzApplicationGateway -ApplicationGateway $AppGw
 $azfw = Get-AzFirewall -Name "azfw-hub" -ResourceGroupName $answers.resourceGroupName
 $azfw.Deallocate()
 Set-AzFirewall -AzureFirewall $azfw
+
+# Stop AppService
+$AppService = Get-AzWebApp -Name $answers.appServiceName -ResourceGroupName $answers.resourceGroupName
+Stop-AzWebApp -Name $answers.appServiceName -ResourceGroupName $answers.resourceGroupName
