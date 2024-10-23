@@ -1,0 +1,5 @@
+{
+    "subscriptionId": "<your-subscription-id>",
+    "location": "<location>",
+    "resourceGroupName": "<resource-group-name>"
+  }
