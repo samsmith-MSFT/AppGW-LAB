@@ -11,4 +11,4 @@ Set-AzFirewall -AzureFirewall $azfw
 
 # Stop AppService
 $AppService = Get-AzWebApp -Name $answers.appServiceName -ResourceGroupName $answers.resourceGroupName
-Stop-AzWebApp -Name $answers.appServiceName -ResourceGroupName $answers.resourceGroupName
+Stop-AzWebApp -WebApp $AppService
