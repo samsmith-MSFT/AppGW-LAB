@@ -10,7 +10,7 @@ $resourceGroupName = $answers.resourceGroupName
 $tfvarsFiles = Get-ChildItem -Recurse -Filter "terraform.tfvars" | Sort-Object DirectoryName
 
 # Define the order of directories
-$order = @("1-Hub-Spoke", "2-AppService", "3-appGW")
+$order = @("1-Hub-Spoke", "2-AppService", "3-AppGW")
 
 foreach ($dir in $order) {
     $tfvarsFile = $tfvarsFiles | Where-Object { $_.DirectoryName -like "*$dir*" }
