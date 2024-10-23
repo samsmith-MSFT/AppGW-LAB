@@ -46,6 +46,7 @@ resource "azurerm_linux_web_app" "app_service" {
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   service_plan_id = azurerm_service_plan.appserviceplan.id
+  public_network_access_enabled = false
 
   site_config {}
 }
