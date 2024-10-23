@@ -1,5 +1,5 @@
 # Change to the modules directory
-Set-Location \ | Set-Location -Path "/workspaces/AVNM-LAB/Modules"
+Set-Location \ | Set-Location -Path "/workspaces/AppGW-LAB/Modules"
 
 $order = @("3-AppGW", "2-AppService", "1-Hub-Spoke")
 
