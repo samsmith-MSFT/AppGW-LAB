@@ -5,6 +5,7 @@ $answers = Get-Content -Raw -Path "answers.json" | ConvertFrom-Json
 $subscriptionId = $answers.subscriptionId
 $location = $answers.location
 $resourceGroupName = $answers.resourceGroupName
+$appServiceName = $answers.appServiceName
 
 # Find all terraform.tfvars files in the module directories
 $tfvarsFiles = Get-ChildItem -Recurse -Filter "terraform.tfvars" | Sort-Object DirectoryName
