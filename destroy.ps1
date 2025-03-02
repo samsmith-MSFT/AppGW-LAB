@@ -1,6 +1,5 @@
-# Change to the modules directory
-Set-Location \
-Set-Location -Path "/workspaces/AppGW-LAB/Modules"
+# Change directory to root folder directory
+$null = cd /workspaces/AppGW-LAB
 
 $order = @("3-AppGW", "2-AppService", "1-Hub-Spoke")
 
