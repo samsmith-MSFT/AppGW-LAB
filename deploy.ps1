@@ -1,3 +1,6 @@
+# Change directory to root folder directory
+$null = cd /workspaces/AppGW-LAB
+
 # Read the answers.json file
 $answers = Get-Content -Raw -Path "answers.json" | ConvertFrom-Json
 
